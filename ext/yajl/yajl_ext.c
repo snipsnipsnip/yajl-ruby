@@ -275,7 +275,7 @@ static int yajl_found_boolean(void * ctx, int boolean) {
 }
 
 static int yajl_found_number(void * ctx, const char * numberVal, unsigned int numberLen) {
-    char* buf = (char*)malloc(numberLen + 1);
+    char *buf = ruby_xmalloc(numberLen+1);
     buf[numberLen] = 0;
     memcpy(buf, numberVal, numberLen);
 
@@ -286,7 +286,7 @@ static int yajl_found_number(void * ctx, const char * numberVal, unsigned int nu
     } else {
         yajl_set_static_value(ctx, rb_cstr2inum(buf, 10));
     }
-    free(buf);
+    ruby_xfree(buf);
     return 1;
 }
 
@@ -417,7 +417,8 @@ static VALUE rb_yajl_parser_new(int argc, VALUE * argv, VALUE klass) {
             symbolizeKeys = 1;
         }
     }
-    cfg = (yajl_parser_config){allowComments, checkUTF8};
+    cfg.allowComments = allowComments;
+    cfg.checkUTF8 = checkUTF8;
 
     obj = Data_Make_Struct(klass, yajl_parser_wrapper, yajl_parser_wrapper_mark, yajl_parser_wrapper_free, wrapper);
     wrapper->parser = yajl_alloc(&callbacks, &cfg, NULL, (void *)obj);
@@ -616,7 +617,9 @@ static VALUE rb_yajl_encoder_new(int argc, VALUE * argv, VALUE klass) {
     if (!indentString) {
       indentString = defaultIndentString;
     }
-    cfg = (yajl_gen_config){beautify, (const char *)indentString, htmlSafe};
+    cfg.beautify = beautify;
+    cfg.indentString = (const char *)indentString;
+    cfg.htmlSafe = htmlSafe;
 
     obj = Data_Make_Struct(klass, yajl_encoder_wrapper, yajl_encoder_wrapper_mark, yajl_encoder_wrapper_free, wrapper);
     wrapper->indentString = actualIndent;
