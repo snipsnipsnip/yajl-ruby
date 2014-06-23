@@ -63,7 +63,7 @@ describe "Chunked parser" do
 
   it "should parse twitter_stream.json and fire callback 430 times" do
     path = File.expand_path(File.dirname(__FILE__) + '/../../benchmark/subjects/twitter_stream.json')
-    json = File.new(path, 'r')
+    json = File.new(path, 'rb')
     @callback.should_receive(:call).exactly(430).times
     lambda {
       @parser.parse(json)
@@ -72,7 +72,7 @@ describe "Chunked parser" do
 
   it "should parse twitter_stream.json and fire callback 430 times, with a block as the callback" do
     path = File.expand_path(File.dirname(__FILE__) + '/../../benchmark/subjects/twitter_stream.json')
-    json = File.new(path, 'r')
+    json = File.new(path, 'rb')
     @callback.should_receive(:call).exactly(0).times
     @parser.on_parse_complete = nil
     lambda {
@@ -86,7 +86,7 @@ describe "Chunked parser" do
 
   it "should raise a Yajl::ParseError error if multiple JSON strings were found when no on_parse_complete callback assigned" do
     path = File.expand_path(File.dirname(__FILE__) + '/../../benchmark/subjects/twitter_stream.json')
-    json = File.new(path, 'r')
+    json = File.new(path, 'rb')
     @parser.on_parse_complete = nil
     @callback.should_receive(:call).exactly(0).times
     lambda {

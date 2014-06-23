@@ -18,7 +18,7 @@ end
 
 describe "Yajl HTTP GET request" do
   before(:all) do
-    raw = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.raw.dump'), 'r')
+    raw = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.raw.dump'), 'rb')
     parse_off_headers(raw)
     @template_hash = Yajl::Parser.parse(raw)
 
@@ -26,8 +26,8 @@ describe "Yajl HTTP GET request" do
     parse_off_headers(raw)
     @template_hash_symbolized = Yajl::Parser.parse(raw, :symbolize_keys => true)
 
-    @deflate = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.deflate.dump'), 'r')
-    @gzip = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.gzip.dump'), 'r')
+    @deflate = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.deflate.dump'), 'rb')
+    @gzip = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.gzip.dump'), 'rb')
     @chunked_body = {"item"=>{"price"=>1.99, "updated_by_id"=>nil, "cached_tag_list"=>"", "name"=>"generated", "created_at"=>"2009-03-24T05:25:09Z", "cost"=>0.597, "delta"=>false, "created_by_id"=>nil, "updated_at"=>"2009-03-24T05:25:09Z", "import_tag"=>nil, "account_id"=>16, "id"=>1, "taxable"=>true, "unit"=>nil, "sku"=>"06317-0306", "company_id"=>0, "description"=>nil, "active"=>true}}
   end
 
@@ -36,7 +36,7 @@ describe "Yajl HTTP GET request" do
   end
 
   def prepare_mock_request_dump(format=:raw)
-    @request = File.new(File.expand_path(File.dirname(__FILE__) + "/fixtures/http.#{format}.dump"), 'r')
+    @request = File.new(File.expand_path(File.dirname(__FILE__) + "/fixtures/http.#{format}.dump"), 'rb')
     @uri = 'file://'+File.expand_path(File.dirname(__FILE__) + "/fixtures/http/http.#{format}.dump")
     TCPSocket.should_receive(:new).and_return(@request)
     @request.should_receive(:write)

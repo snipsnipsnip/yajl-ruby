@@ -28,7 +28,7 @@ describe "Yajl JSON encoder" do
      it "should encode #{File.basename(file)} to an StringIO" do
        # we don't care about testing the stream subject as it has multiple JSON strings in it
        if File.basename(file) != 'twitter_stream.json'
-         input = File.new(File.expand_path(file), 'r')
+         input = File.new(File.expand_path(file), 'rb')
          io = StringIO.new
          encoder = Yajl::Encoder.new
          hash = Yajl::Parser.parse(input)
@@ -46,7 +46,7 @@ describe "Yajl JSON encoder" do
      it "should encode #{File.basename(file)} to a Zlib::GzipWriter" do
       # we don't care about testing the stream subject as it has multiple JSON strings in it
       if File.basename(file) != 'twitter_stream.json'
-         hash = File.open(File.expand_path(file), 'r') do |input|
+         hash = File.open(File.expand_path(file), 'rb') do |input|
             Yajl::Parser.parse(input)
          end
          hash2 = Dir.mktmpdir do |tmp_dir|
@@ -67,7 +67,7 @@ describe "Yajl JSON encoder" do
      it "should encode #{File.basename(file)} and return a String" do
        # we don't care about testing the stream subject as it has multiple JSON strings in it
        if File.basename(file) != 'twitter_stream.json'
-         input = File.new(File.expand_path(file), 'r')
+         input = File.new(File.expand_path(file), 'rb')
          encoder = Yajl::Encoder.new
          hash = Yajl::Parser.parse(input)
          output = encoder.encode(hash)
@@ -82,7 +82,7 @@ describe "Yajl JSON encoder" do
      it "should encode #{File.basename(file)} call the passed block, passing it a String" do
        # we don't care about testing the stream subject as it has multiple JSON strings in it
        if File.basename(file) != 'twitter_stream.json'
-         input = File.new(File.expand_path(file), 'r')
+         input = File.new(File.expand_path(file), 'rb')
          encoder = Yajl::Encoder.new
          hash = Yajl::Parser.parse(input)
          output = ''

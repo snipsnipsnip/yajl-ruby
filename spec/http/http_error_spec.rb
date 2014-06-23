@@ -10,7 +10,7 @@ require 'yajl/http_stream'
 
 describe "Yajl HTTP error" do
   before(:all) do
-    @request = File.new(File.expand_path(File.dirname(__FILE__) + "/fixtures/http.error.dump"), 'r')
+    @request = File.new(File.expand_path(File.dirname(__FILE__) + "/fixtures/http.error.dump"), 'rb')
     @uri = 'file://'+File.expand_path(File.dirname(__FILE__) + "/fixtures/http/http.error.dump")
     TCPSocket.should_receive(:new).and_return(@request)
     @request.should_receive(:write)

@@ -18,7 +18,7 @@ end
 
 describe "Yajl HTTP DELETE request" do
   before(:all) do
-    raw = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.raw.dump'), 'r')
+    raw = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.raw.dump'), 'rb')
     parse_off_headers(raw)
     @template_hash = Yajl::Parser.parse(raw)
 
@@ -26,8 +26,8 @@ describe "Yajl HTTP DELETE request" do
     parse_off_headers(raw)
     @template_hash_symbolized = Yajl::Parser.parse(raw, :symbolize_keys => true)
 
-    @deflate = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.deflate.dump'), 'r')
-    @gzip = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.gzip.dump'), 'r')
+    @deflate = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.deflate.dump'), 'rb')
+    @gzip = File.new(File.expand_path(File.dirname(__FILE__) + '/fixtures/http.gzip.dump'), 'rb')
   end
 
   after(:each) do
@@ -35,7 +35,7 @@ describe "Yajl HTTP DELETE request" do
   end
 
   def prepare_mock_request_dump(format=:raw)
-    @request = File.new(File.expand_path(File.dirname(__FILE__) + "/fixtures/http.#{format}.dump"), 'r')
+    @request = File.new(File.expand_path(File.dirname(__FILE__) + "/fixtures/http.#{format}.dump"), 'rb')
     @uri = 'file://'+File.expand_path(File.dirname(__FILE__) + "/fixtures/http/http.#{format}.dump")
     TCPSocket.should_receive(:new).and_return(@request)
     @request.should_receive(:write)
