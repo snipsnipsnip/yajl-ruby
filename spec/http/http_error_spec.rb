@@ -9,7 +9,7 @@ require 'yajl/deflate'
 require 'yajl/http_stream'
 
 describe "Yajl HTTP error" do
-  before(:all) do
+  before(:each) do
     @uri = 'file://'+File.expand_path(File.dirname(__FILE__) + "/fixtures/http/http.error.dump")
     @request = File.new(File.expand_path(File.dirname(__FILE__) + "/fixtures/http.error.dump"), 'rb')
     TCPSocket.should_receive(:new).and_return(@request)
