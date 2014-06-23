@@ -29,7 +29,7 @@ describe "Yajl JSON encoder" do
        # we don't care about testing the stream subject as it has multiple JSON strings in it
        if File.basename(file) != 'twitter_stream.json'
          input = File.new(File.expand_path(file), 'rb')
-         io = StringIO.new
+         io = StringIO.new('', 'r+b')
          encoder = Yajl::Encoder.new
          hash = Yajl::Parser.parse(input)
          encoder.encode(hash, io)
